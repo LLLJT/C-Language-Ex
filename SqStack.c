@@ -119,6 +119,132 @@ if(top==-1)return 1;
 else return 0;
 }
 
+//运算函数
+//完成a op b的运算
+int op(int a,char op,int b){
+	if(op=="+")return a+b;
+	if(op=="-")return a-b;
+	if(op=="*")return a*b;
+	if(op=='/'){
+		if(b==0){
+			print("error");
+			return 0;
+}
+		else{
+			return a/b;
+} 	
+}
+}
+//后缀式计算函数
+int com(char exp[]){
+	//ab为2个操作数，c来保存结果
+	int i,a,b,c;
+	//初始化栈和定义栈
+	int stack[maxSize];
+	int top=-1;
+	char op;
+	for(i=0;exp[i]!='\0';i++){
+		//字符型和整形的转换
+		if(exp[i]>='0'&&exp[i]<='9')stack[++top]=exp[i]-'0';
+		//不是数字而是操作符
+		else {
+			op=exp[i];
+			b=stack[top--];
+			a=stack[top--];
+			c=op(a,op,b);
+			stack[++top]=c
+}
+}	
+return stack[top];
+}
+
+//------------顺序队列---------------
+//初始化队列
+void initQueue(SqQueue &qu){
+	qu.front=qu.rear=0;
+}
+//判断栈空算法
+int isQueueEmpty(SqQueue qu){
+	if(qu.front==qu.rear)return 1;
+	else return 0;
+}
+
+//进队算法
+int enQueue(SqQueue &qu,int x){
+	//判断队满算法
+	if((qu.rear+1)%maxSize==qu.front)return 0;
+	//若未满，先移动指针
+	qu.rear=(qu.rear+1)%maxSize;
+	//存入元素
+	qu.data[qu.rear]=x;
+	return 1;
+}
+//出栈算法
+int deQueue(SqQueue &qu,int &x){
+	//判断栈空
+	if(qu.front==qu.rear)return 0;
+	//移动指针
+	qu.front=(qu.front+1)%maxSize;
+	x=qu.data[qu.front];
+	return 1;
+}
+
+
+
+//--------------链队------------------
+
+//初始化链队算法
+void initQueue(LiQueue *&lqu){
+	lqu=(LiQue)malloc(sizeof(LiQueue));
+	//队空状态
+	lqu->front=lqu->rear=NULL;
+}
+
+//判断队空
+int isQueueEmpty(LiQueue *lqu){
+	if(lqu->rear==NULL||lqu->front==NULL)return 1;
+	else return 0;
+}
+///入队算法
+void enQueue(LiQueue *lqu,int x){
+	QNode *p;
+	p=(QNode*)malloc(sizeof(QNode));
+	p->data=x;
+	p->next=NULL;
+	if(lqu->rear==NULL)lqu->front=lqu->rear=p;
+	else{	//将新结点链接到队尾，rear指向它
+		lqu->rear->next=p;
+		lqu->rear=p;
+}
+}
+//出队算法
+int deQueue(LiQueue *lqu,int &x){
+	QNode *p;
+	//队空情况
+	if(lqu->rear==NULL)return 0;
+	else p=lqu->front;
+	//只有一个元素
+	if(lqu->front==lqu->rear)lqu->front=lqu->rear==NULL;
+	else lqu->front=lqu->front->next;
+	x=p->data;
+	free(p);
+	return 1;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
